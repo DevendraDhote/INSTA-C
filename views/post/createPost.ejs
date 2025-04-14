@@ -1,33 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Post - Instagram</title>
-    <link rel="stylesheet" href="/css/createPost.style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/createPost.style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+  <body>
     <header>
-        <div class="navbar">
-            <h1 class="logo">Instagram</h1>
-            <div class="nav-icons">
-                <a href="/home"><i class="fa-solid fa-house"></i></a>
-                <a href="/messages"><i class="fa-regular fa-paper-plane"></i></a>
-                <a href="/new-post"><i class="fa-regular fa-square-plus"></i></a>
-                <a href="/notifications"><i class="fa-regular fa-heart"></i></a>
-                <a href="/profile"><i class="fa-regular fa-user"></i></a>
-            </div>
+      <div class="navbar">
+        <h1 class="logo">Instagram</h1>
+        <div class="nav-icons">
+          <a href="/home"><i class="fa-solid fa-house"></i></a>
+          <a href="/messages"><i class="fa-regular fa-paper-plane"></i></a>
+          <a href="/new-post"><i class="fa-regular fa-square-plus"></i></a>
+          <a href="/notifications"><i class="fa-regular fa-heart"></i></a>
+          <a href="/profile"><i class="fa-regular fa-user"></i></a>
         </div>
+      </div>
     </header>
-    
+
     <div class="create-post-container">
-        <h2>Create a New Post</h2>
-        <form action="/home/createPost" method="POST" class="create-post-form">
-            <input type="text" name="caption" placeholder="Write a caption..." required>
-            <input type="text" name="imageUri" placeholder="image url" required>
-            <button type="submit">Post</button>
-        </form>
+      <h2>Create a New Post</h2>
+      <form action="/home/createPost" method="POST" class="create-post-form">
+        <input
+          type="text"
+          name="caption"
+          placeholder="Write a caption..."
+          required
+        />
+        <input type="text" name="imageUri" placeholder="image url" required />
+        <button type="submit">Post</button>
+      </form>
     </div>
-</body>
+
+    <div class="create-post-container">
+      <h2>Upload story</h2>
+      <form
+        action="/home/story"
+        method="POST"
+        enctype="multipart/form-data"
+        class="create-post-form"
+      >
+        <label for="storyFile">Select Story File:</label>
+        <input
+          type="file"
+          name="storyFile"
+          id="storyFile"
+          accept="image/*,video/*"
+          required
+        />
+        <button type="submit">Upload Story</button>
+      </form>
+    </div>
+  </body>
 </html>

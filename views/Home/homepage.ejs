@@ -17,45 +17,64 @@
         <input type="text" placeholder="Search" class="search-bar" />
         <div class="nav-icons">
           <a href="/home"><i class="fa-solid fa-house"></i></a>
+          <a href="/chats/chat-page"><i class="far fa-comment-dots"></i></a>
           <a href="/messages"><i class="fa-regular fa-paper-plane"></i></a>
           <a href="/home/create-post"
             ><i class="fa-regular fa-square-plus"></i
           ></a>
           <a href="/notifications"><i class="fa-regular fa-heart"></i></a>
-          <a href="/api/auth/logout"><i class="fa-regular fa-user"></i></a>
+          <a href="/profile/profile-page"><i class="fa-regular fa-user"></i></a>
+          <a href="/api/auth/logout"
+            ><i class="fa-solid fa-right-from-bracket"></i
+          ></a>
         </div>
       </div>
     </header>
 
     <main>
       <section class="stories">
-        <div class="story">Story 1</div>
-        <div class="story">Story 2</div>
-        <div class="story">Story 3</div>
-        <div class="story">Story 4</div>
+        <% stories.forEach((story, index) => { %>
+        <div class="story" onClick="openStory(<%= index %>)">
+          <% if (story.mediaType === 'image') { %>
+          <img src="../data/uploads/<%= story.imageUrl %>" alt="story" />
+          <% } else { %>
+          <img src="/default-video-thumbnail.jpg" alt="video" />
+          <% } %>
+        </div>
+        <% }) %>
       </section>
+
+      <!-- Story viewer modal -->
+      <div class="story-viewer" id="storyViewer">
+        <span class="close-btn" onclick="closeViewer()">×</span>
+        <div id="storyContent"></div>
+      </div>
+
       <section class="feed">
         <% posts.forEach(val => { %>
 
         <div class="post">
-          <div class="topp" style="display: flex; justify-content: space-between;">
-          <h3><%= val.user.name %></h3>
-          <a href="/home/follow/<%= val.user._id %>" class="like-btn">
-            <i class="fa-regular fa-heart"></i> Follow
-        </a>
-        <span class="comment-btn">
-          <span class="comment-count"><%= val.user.followers.length %></span> Followers
-        </span>
-        </div>
-          <img
-            src="<%=val.imageUri %>"
-            alt="Post Image"
-          />
+          <div
+            class="topp"
+            style="display: flex; justify-content: space-between"
+          >
+            <h3><%= val.user.name %></h3>
+            <a href="/home/follow/<%= val.user._id %>" class="like-btn">
+              <i class="fa-regular fa-heart"></i> Follow
+            </a>
+            <span class="comment-btn">
+              <span class="comment-count"
+                ><%= val.user.followers.length %></span
+              >
+              Followers
+            </span>
+          </div>
+          <img src="<%=val.imageUri %>" alt="Post Image" />
           <p><%= val.caption %></p>
 
           <div class="post-actions">
             <a href="/home/like/<%= val._id %>" class="like-btn">
-                <i class="fa-regular fa-heart"></i> Like
+              <i class="fa-regular fa-heart"></i> Like
             </a>
             <button class="comment-btn">
               <i class="fa-regular fa-comment"></i> Comment
@@ -76,10 +95,46 @@
 
       <aside class="sidebar">
         <h3>Suggestions for You</h3>
-        <p>Follow User 1</p>
-        <p>Follow User 2</p>
-        <p>Follow User 3</p>
+        <% followers.forEach(follower => { const isFollowing =
+        follower.followers.includes(follower._id) %>
+        <div class="followers">
+          <h4><%= follower.name %></h4>
+          <a href="/home/follow/<%= follower._id %>"><%= isFollowing ? 'Unfollow' : 'Follow' %></a>
+        </div>
+        <% }) %>
       </aside>
     </main>
+
+    <script>
+      const stories = <%- JSON.stringify(stories) %>;
+
+      function openStory(index) {
+        let currentStoryIndex = 0;
+
+        currentStoryIndex = index;
+        const story = stories[index];
+        const viewer = document.getElementById("storyViewer");
+        const content = document.getElementById("storyContent");
+
+        let mediaElement = "";
+
+        if (story.mediaType.startsWith("image")) {
+          mediaElement = `<img src="../data/uploads/${story.imageUrl}" />`;
+        } else if (story.mediaType.startsWith("video")) {
+          mediaElement = `
+            <video controls autoplay>
+              <source src="${story.imageUrl}" type="${story.mediaType}">
+              Your browser does not support the video tag.
+            </video>`;
+        }
+
+        content.innerHTML = mediaElement;
+        viewer.classList.add("active");
+      }
+
+      function closeViewer() {
+        document.getElementById("storyViewer").classList.remove("active");
+      }
+    </script>
   </body>
 </html>

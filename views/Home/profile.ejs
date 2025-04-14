@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= user.username %> | Profile</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      padding: 20px;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .profile-header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+    .profile-info h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .profile-info .counts {
+      margin: 10px 0;
+    }
+    .counts span {
+      margin-right: 15px;
+    }
+    .bio {
+      font-weight: bold;
+    }
+    .nav-buttons {
+      margin-top: 10px;
+    }
+    .nav-buttons button {
+      margin-right: 10px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+    }
+    .posts {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin-top: 30px;
+    }
+    .posts img {
+      width: 100%;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="profile-header">
+      <img src="<%= user.profileImage %>" alt="Profile Picture" />
+      <div class="profile-info">
+        <h2><%= user.username %></h2>
+        <div class="counts">
+          <span><strong><%= user.postsCount %></strong> post</span>
+          <span><strong><%= user.followers %></strong> followers</span>
+          <span><strong><%= user.following %></strong> following</span>
+        </div>
+        <div class="nav-buttons">
+          <button>Edit profile</button>
+          <button>View archive</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="posts">
+      <% user.posts.forEach(post => { %>
+        <img src="<%= post.imageUri %>" alt="Post Image" />
+      <% }); %>
+    </div>
+  </div>
+</body>
+</html>

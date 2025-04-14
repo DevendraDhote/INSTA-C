@@ -32,10 +32,22 @@ const userSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  stories: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
+    },
+  ],
+  sockets: [
+    {
+      type: String,
+      default: [],
     },
   ],
 });
@@ -50,18 +62,18 @@ userSchema.pre("save", async function (next) {
   // console.log(this)
   // if (!this.isModified("password")) return next()
   try {
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
   } catch (error) {
-    console.log("errororororor", error)
+    console.log("errororororor", error);
   }
 });
 
-userSchema.methods.comparePassword = async function (plainPass)  {
+userSchema.methods.comparePassword = async function (plainPass) {
   return await bcrypt.compare(plainPass, this.password);
 };
 
-userSchema.statics.findByEmail = async function (email)  {
+userSchema.statics.findByEmail = async function (email) {
   return this.findOne({ email });
 };
 
