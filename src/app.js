@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const { createServer } = require("http");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes/authRoutes.js");
 const postRoutes = require("./routes/postRoutes/postRoutes.js");
